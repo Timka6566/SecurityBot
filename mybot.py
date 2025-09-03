@@ -40,10 +40,17 @@ def get_generation_menu_keyboard():
 
 
 def get_advice_menu_keyboard():
+    """Возвращает клавиатуру меню советов."""
     keyboard = [
         [InlineKeyboardButton("🔐 Что такое 2FA?", callback_data='advice_2fa')],
         [InlineKeyboardButton("🎣 Что такое фишинг?",
                               callback_data='advice_phishing')],
+        [InlineKeyboardButton("🎭 Социальная инженерия",
+                              callback_data='advice_social')],
+        [InlineKeyboardButton("📶 Публичный Wi-Fi",
+                              callback_data='advice_wifi')],
+        [InlineKeyboardButton("🔄 Важность обновлений",
+                              callback_data='advice_updates')],
         [InlineKeyboardButton("⬅️ Назад в главное меню",
                               callback_data='back_to_main')],
     ]
@@ -141,7 +148,8 @@ async def handle_password_check(update: Update, context: ContextTypes.DEFAULT_TY
 def main() -> None:
     token = os.getenv("TOKEN")
     if not token:
-        raise ValueError("Не найден токен! Убедитесь, что он задан в переменных окружения как TOKEN=...")
+        raise ValueError(
+            "Не найден токен! Убедитесь, что он задан в переменных окружения как TOKEN=...")
 
     application = Application.builder().token(token).build()
 
