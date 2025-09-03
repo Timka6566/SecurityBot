@@ -1,6 +1,8 @@
 import logging
+import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes, MessageHandler, filters
+
 
 from handlers.generation import generate_easy, generate_medium, generate_strong
 from handlers.checking import check_password_strength
@@ -137,12 +139,9 @@ async def handle_password_check(update: Update, context: ContextTypes.DEFAULT_TY
 
 
 def main() -> None:
-    try:
-        with open("token.txt", "r") as f:
-            token = f.read().strip()
-    except FileNotFoundError:
-        print("Файл token.txt не найден.")
-        return
+    token = os.getenv("TOKEN")
+    if not token:
+        raise ValueError("Не найден токен! Убедитесь, что он задан в переменных окружения как TOKEN=...")
 
     application = Application.builder().token(token).build()
 
